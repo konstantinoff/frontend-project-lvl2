@@ -7,19 +7,19 @@ const genDiff = (file1, file2) => {
 
   const resultArray = [];
 
-  for (const key in ObjectFile1) {
+  Object.keys(ObjectFile1).forEach((key) => {
     if (!_isEqual(ObjectFile1[key], ObjectFile2[key])) {
       resultArray.push(['-', key, ObjectFile1[key]]);
     } else {
       resultArray.push([key, ObjectFile2[key]]);
     }
-  }
+  });
 
-  for (const key in ObjectFile2) {
+  Object.keys(ObjectFile2).forEach((key) => {
     if (!_isEqual(ObjectFile2[key], ObjectFile1[key])) {
       resultArray.push(['+', key, ObjectFile2[key]]);
     }
-  }
+  });
 
   const result = resultArray.sort((a, b) => compareStrings(a[1], b[1])).map((item) => {
     if (item.includes('+') || item.includes('-')) {
