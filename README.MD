@@ -1,1 +1,2 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/127923cebaf9ceefaa05/maintainability)](https://codeclimate.com/github/konstantinoff/frontend-project-lvl2/maintainability)
+[![Node.js CI](https://github.com/konstantinoff/frontend-project-lvl2/workflows/Node.js%20CI/badge.svg)](https://github.com/konstantinoff/frontend-project-lvl2/actions)
