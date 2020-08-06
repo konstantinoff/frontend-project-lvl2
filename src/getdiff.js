@@ -1,4 +1,4 @@
-import _isEqual from 'lodash/isEqual';
+import _isEqual from 'lodash/isEqual.js';
 
 const compareStrings = (a, b) => {
   if (a > b) {

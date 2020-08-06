@@ -13,19 +13,10 @@ const getFixturePath = (filename, format) => path.join(__dirname, '..', '__fixtu
 const getFileData = (filename, format) => fs.readFileSync(getFixturePath(filename, format), 'utf-8');
 
 describe('test plain files', () => {
-  test('json test', () => {
-    const file1 = getFixturePath('file1', 'json');
-    const file2 = getFixturePath('file2', 'json');
+  test.each(['json', 'yaml', 'ini'])('%s file test', (extension) => {
+    const file1 = getFixturePath('file1', extension);
+    const file2 = getFixturePath('file2', extension);
     const expectedResult = getFileData('expectedResult', 'txt');
-
-    expect(genDiff(file1, file2)).toBe(expectedResult);
-  });
-
-  test('yaml test', () => {
-    const file1 = getFixturePath('file1', 'yaml');
-    const file2 = getFixturePath('file2', 'yaml');
-    const expectedResult = getFileData('expectedResult', 'txt');
-
     expect(genDiff(file1, file2)).toBe(expectedResult);
   });
 });
