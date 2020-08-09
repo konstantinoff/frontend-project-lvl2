@@ -1,7 +1,5 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import compose from 'lodash/fp/compose.js';
-import { getFileExtension } from './utils.js';
 
 const parsersMap = {
   json: JSON.parse,
@@ -9,7 +7,4 @@ const parsersMap = {
   ini: ini.parse,
 };
 
-export default (file, getFileDataFn) => compose(
-  parsersMap[getFileExtension(file)],
-  getFileDataFn,
-)(file);
+export default (file, ext) => parsersMap[ext](file);

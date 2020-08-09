@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import genDiff from '../src';
+import getDiff from '../src/getdiff.js';
+import parse from '../src/parsers.js';
 
 /* eslint-disable no-underscore-dangle */
 const __filename = fileURLToPath(import.meta.url);
@@ -14,9 +15,11 @@ const getFileData = (filename, format) => fs.readFileSync(getFixturePath(filenam
 
 describe('test plain files', () => {
   test.each(['json', 'yaml', 'ini'])('%s file test', (extension) => {
-    const file1 = getFixturePath('file1', extension);
-    const file2 = getFixturePath('file2', extension);
-    const expectedResult = getFileData('expectedResult', 'txt');
-    expect(genDiff(file1, file2)).toBe(expectedResult);
+    const file1Data = getFileData('beforeFlat', extension);
+    const file2Data = getFileData('afterFlat', extension);
+    const parsedFile1 = parse(file1Data, extension);
+    const parsedFile2 = parse(file2Data, extension);
+    const expectedResult = getFileData('expectedResultFlat', 'txt');
+    expect(getDiff(parsedFile1, parsedFile2)).toBe(expectedResult);
   });
 });
