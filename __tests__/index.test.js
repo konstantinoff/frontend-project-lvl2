@@ -3,6 +3,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import getDiff from '../src/getdiff.js';
 import parse from '../src/parsers.js';
+import formatForPrint from '../src/formatForPrint.js';
 
 /* eslint-disable no-underscore-dangle */
 const __filename = fileURLToPath(import.meta.url);
@@ -20,6 +21,6 @@ describe('test plain files', () => {
     const parsedFile1 = parse(file1Data, extension);
     const parsedFile2 = parse(file2Data, extension);
     const expectedResult = getFileData('expectedResultFlat', 'txt');
-    expect(getDiff(parsedFile1, parsedFile2)).toBe(expectedResult);
+    expect(formatForPrint(getDiff(parsedFile1, parsedFile2))).toBe(expectedResult);
   });
 });

@@ -1,38 +1,42 @@
-import _isEqual from 'lodash/isEqual.js';
-
-const compareStrings = (a, b) => {
-  if (a > b) {
-    return 1;
-  }
-  if (a < b) {
-    return -1;
-  }
-  return 0;
-};
+import _has from 'lodash/has.js';
+import _uniq from 'lodash/uniq.js';
+import _sortBy from 'lodash/sortBy.js';
+import statusTypes from './statusTypes.js';
 
 export default (file1, file2) => {
-  const resultArray = [];
+  const file1Keys = Object.keys(file1);
+  const file2Keys = Object.keys(file2);
+  const sameUniqKeys = _uniq([...file1Keys, ...file2Keys]);
 
-  Object.keys(file1).forEach((key) => {
-    if (!_isEqual(file1[key], file2[key])) {
-      resultArray.push(['-', key, file1[key]]);
-    } else {
-      resultArray.push([key, file2[key]]);
+  const result = sameUniqKeys.map((key) => {
+    if (_has(file1, key) && !_has(file2, key)) {
+      return {
+        key,
+        value: file1[key],
+        status: statusTypes.REMOVED,
+      };
     }
+    if (!_has(file1, key) && _has(file2, key)) {
+      return {
+        key,
+        value: file2[key],
+        status: statusTypes.ADDED,
+      };
+    }
+    if (file1[key] !== file2[key]) {
+      return {
+        key,
+        value: file1[key],
+        newValue: file2[key],
+        status: statusTypes.CHANGED,
+      };
+    }
+    return {
+      key,
+      value: file1[key],
+      status: statusTypes.UNCHANGED,
+    };
   });
 
-  Object.keys(file2).forEach((key) => {
-    if (!_isEqual(file2[key], file1[key])) {
-      resultArray.push(['+', key, file2[key]]);
-    }
-  });
-
-  const result = resultArray.sort((a, b) => compareStrings(a[1], b[1])).map((item) => {
-    if (item.includes('+') || item.includes('-')) {
-      return `${item[0]} ${item[1]}: ${item[2]}`;
-    }
-    return `  ${item.join('')}`;
-  }).join('\n');
-
-  return `{\n${result}\n}`;
+  return _sortBy(result, ['key']);
 };
