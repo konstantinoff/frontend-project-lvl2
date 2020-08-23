@@ -5,8 +5,8 @@ const render = (key, value) => {
   if (!_isObject(value)) {
     return `${key}: ${value}`;
   }
-  const nestedKeys = Object.keys(value);
-  const resultArray = nestedKeys.map((key2) => render(key2, value[key2]));
+
+  const resultArray = Object.keys(value).map((key2) => render(key2, value[key2]));
 
   return ` ${key}: {\n${resultArray.join('\n')}\n}`;
 };
