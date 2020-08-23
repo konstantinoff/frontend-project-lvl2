@@ -3,7 +3,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import getDiff from '../src/getdiff.js';
 import parse from '../src/parsers.js';
-import formatForPrint from '../src/formatForPrint.js';
+import formatForPrint from '../src/stylish.js';
 
 /* eslint-disable no-underscore-dangle */
 const __filename = fileURLToPath(import.meta.url);

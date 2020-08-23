@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import program from 'commander';
 import genDiff from '../src/index.js';
-import formatForPrint from '../src/formatForPrint.js';
+import formatForPrint from '../src/stylish.js';
 
 program
   .version('0.0.1')
